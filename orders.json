@@ -4,8 +4,8 @@
     "customer": "Alice Smith",
     "city": "New York",
     "status": "Delayed",
-    "delay_reason": "Severe weather in New York: Rain (downpour)",
-    "apology_message": "Hi Alice, your order to New York is delayed due to downpour. We appreciate your patience!"
+    "delay_reason": "Severe weather in New York: Rain (heavy downpour)",
+    "apology_message": "Hi Alice, your order to New York is delayed due to heavy downpour. We appreciate your patience!"
   },
   {
     "order_id": "1002",
@@ -18,8 +18,8 @@
     "customer": "Charlie Green",
     "city": "London",
     "status": "Delayed",
-    "delay_reason": "Severe weather in London: Snow (heavy blizzard)",
-    "apology_message": "Hi Charlie, your order to London is delayed due to heavy blizzard. We appreciate your patience!"
+    "delay_reason": "Severe weather in London: Snow (blizzard)",
+    "apology_message": "Hi Charlie, your order to London is delayed due to blizzard. We appreciate your patience!"
   },
   {
     "order_id": "1004",
