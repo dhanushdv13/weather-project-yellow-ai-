@@ -1,0 +1,2 @@
+[console_scripts]
+weather-delay-checker = weather_checker.main:main
