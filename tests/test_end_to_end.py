@@ -124,7 +124,9 @@ async def test_end_to_end_full_pipeline(tmp_path, monkeypatch):
 @pytest.mark.asyncio
 async def test_end_to_end_simulation_mode(tmp_path, monkeypatch):
     """Test full pipeline with --simulate override, demonstrating delay without calling real API."""
-    monkeypatch.delenv("OPENWEATHER_API_KEY", raising=False)
+    empty_env = tmp_path / ".env.empty"
+    empty_env.write_text("", encoding="utf-8")
+    monkeypatch.setenv("OPENWEATHER_API_KEY", "")
 
     input_file = tmp_path / "orders.json"
     input_file.write_text(
@@ -140,6 +142,7 @@ async def test_end_to_end_simulation_mode(tmp_path, monkeypatch):
     exit_code = await run_pipeline(
         file_path=str(input_file),
         simulate_arg="Mumbai=Rain,London=Snow:blizzard",
+        env_file=empty_env,
     )
 
     assert exit_code == 0
@@ -158,12 +161,16 @@ async def test_end_to_end_simulation_mode(tmp_path, monkeypatch):
 @pytest.mark.asyncio
 async def test_end_to_end_missing_api_key_fails_fast(tmp_path, monkeypatch):
     """Test pipeline exits with code 1 when API key is missing and cities are not simulated."""
-    monkeypatch.delenv("OPENWEATHER_API_KEY", raising=False)
+    empty_env = tmp_path / ".env.empty"
+    empty_env.write_text("", encoding="utf-8")
+    monkeypatch.setenv("OPENWEATHER_API_KEY", "")
 
     input_file = tmp_path / "orders.json"
     input_file.write_text(json.dumps(FOUR_ORDERS_SAMPLE), encoding="utf-8")
 
     exit_code = await run_pipeline(
         file_path=str(input_file),
+        env_file=empty_env,
     )
     assert exit_code == 1
+

@@ -90,13 +90,15 @@ def load_settings(
     max_concurrency: Optional[int] = None,
     request_timeout: Optional[float] = None,
     delay_conditions: Optional[Set[str] | str] = None,
+    load_env: bool = True,
 ) -> Settings:
     """Load settings from .env file, environment variables, and explicit overrides."""
     # Load .env file if it exists or if explicitly provided
-    if env_file:
-        load_dotenv(dotenv_path=env_file, override=False)
-    else:
-        load_dotenv(override=False)
+    if load_env:
+        if env_file:
+            load_dotenv(dotenv_path=env_file, override=False)
+        else:
+            load_dotenv(override=False)
 
     resolved_api_key = api_key or os.getenv("OPENWEATHER_API_KEY")
     resolved_concurrency = max_concurrency or int(
@@ -115,3 +117,4 @@ def load_settings(
         request_timeout=resolved_timeout,
         delay_conditions=resolved_conditions,
     )
+

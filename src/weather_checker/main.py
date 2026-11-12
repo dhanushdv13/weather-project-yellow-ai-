@@ -39,6 +39,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="Destination path for updated orders JSON (defaults to overwriting input file atomically)",
     )
     parser.add_argument(
+        "--env-file",
+        type=str,
+        default=None,
+        help="Path to custom .env file (default: .env)",
+    )
+    parser.add_argument(
         "--simulate",
         type=str,
         default=None,
@@ -135,11 +141,13 @@ async def run_pipeline(
     timeout: Optional[float] = None,
     delay_conditions_arg: Optional[str] = None,
     log_level_str: str = "INFO",
+    env_file: Optional[str | Path] = None,
 ) -> int:
     """Main async execution pipeline."""
     # 1. Load settings & configure logging
     level = getattr(logging, log_level_str.upper(), logging.INFO)
     settings = load_settings(
+        env_file=env_file,
         max_concurrency=concurrency,
         request_timeout=timeout,
         delay_conditions=delay_conditions_arg,
@@ -230,6 +238,7 @@ def main() -> None:
             timeout=args.timeout,
             delay_conditions_arg=args.delay_conditions,
             log_level_str=args.log_level,
+            env_file=args.env_file,
         )
     )
     sys.exit(exit_code)
@@ -237,3 +246,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
